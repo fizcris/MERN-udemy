@@ -29,10 +29,18 @@ router.get("/me", auth, async (req, res) => {
 });
 
 // @route   GET api/profile/
-// @desc    Test route
+// @desc    Get all profiles
 // @access   Public
 
-router.get("/", (req, res) => res.send("Profile route"));
+router.get("/", async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    res.json(profiles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
 
 // @route   POST api/profile/
 // @desc    Create or upopdate user profile

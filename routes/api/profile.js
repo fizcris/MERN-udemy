@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
-const { check, validationResult } = require("express-validator/check");
+const { check, validationResult } = require("express-validator");
 
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
@@ -12,7 +12,7 @@ const User = require("../../models/User");
 
 router.get("/me", auth, async (req, res) => {
   try {
-    const profile = await Profile.findOne({ User: req.user.id }).populate(
+    const profile = await Profile.findOne({ user: req.user.id }).populate(
       "user",
       ["name", "avatar"]
     );
